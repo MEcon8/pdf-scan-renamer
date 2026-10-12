@@ -1,0 +1,31 @@
+# PDF 传真件批量重命名工具 —— 依赖清单
+# 已在 Python 3.11 上验证通过
+#
+# 安装：
+#   pip install -r requirements.txt
+#
+# 说明：
+#   rapidocr-onnxruntime 自带 ONNX 识别模型，CPU 即可运行，
+#   无需 GPU、无需另外安装 Tesseract 等 OCR 程序。
+#
+# ️ 重要：onnxruntime 必须锁定 1.20.1
+#   实测 onnxruntime 1.30.0 在 Python 3.13 上 import 时会导致进程
+#   静默崩溃（无异常、无报错信息，直接退出），表现为 rapidocr 无法导入。
+#   因此这里显式钉死 1.20.1，请不要升级该包。
+
+# ---- 核心依赖（必需）---------------------------------------------
+pymupdf==1.28.2               # PDF 打开 / 渲染为图像；文本层抽取
+rapidocr-onnxruntime==1.2.3   # OCR 引擎（含中英文识别模型）
+onnxruntime==1.20.1           # OCR 推理后端（务必锁此版本，详见上方说明）
+opencv-python==5.0.0.93       # 图像预处理（OTSU 二值化）
+numpy==2.4.6                  # 图像数组运算
+pillow==12.3.0                # 图像读取 / 灰度与对比度增强
+
+# ---- 间接依赖（由上面的包自动带入，仅作参考）----------------------
+# flatbuffers  25.12.19
+# protobuf     7.36.1
+# pyclipper    1.4.0
+# shapely      2.1.2
+# six          1.17.0
+# packaging    26.3
+# PyYAML       6.0.3
